@@ -1,0 +1,8 @@
+{
+    "influx": {
+        "host": "For example https://us-east-1-1.aws.cloud2.influxdata.com",
+        "token": "Your InfluxDB access token",
+        "organization": "Your InfluxDB organization",
+        "bucket": "The bucket where to store"
+    }
+}
