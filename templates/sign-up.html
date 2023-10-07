@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sign up to NIBE</title>
+</head>
+
+<body>
+    <h1>
+        NIBE heat pump authorization
+    </h1>
+    <p>
+    <ul>
+        <li>First step, go to <a href="https://api.nibeuplink.com">api.nibeuplink.com</a> and create an application.
+            Use this URL as the Callback URL.</li>
+        <li>Then, link the data collector to the application by providing the identifier and the secret.</li>
+    </ul>
+
+    </p>
+    <form action="/" method="post">
+        <label for="Identifier">Identifier:</label>
+        <input type="text" id="Identifier" name="Identifier" />
+        <br>
+        <label for="Secret">Secret:</label>
+        <input type="text" id="Secret" name="Secret" />
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+
+</html>
