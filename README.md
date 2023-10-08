@@ -24,15 +24,18 @@ For communicating with the Uplink service, you need to configure an application.
 You can create the application at https://api.nibeuplink.com/Applications/Create
 
 #### Name
-Give your application a meaningful name. In the example, I'll be calling it MyAwesomeApp.
+Give your application a meaningful name.
+In the example, I'll be calling it MyAwesomeApp.
 
 #### Description
 A description of your application.
 
 #### Callback URL
-The authentication process uses OAuth protocol, which requires that you have a webserver where NIBE Uplink can connect to as part of the authentication.
+The authorization process uses OAuth protocol, which requires that you have a web server where NIBE Uplink can connect to as part of the authorization.
 If you are running your code behind a firewall, it may be tricky opening ports in your router.
-Instead, we'll be using ngrok to open a port. Run the following in a separate session. You need to leave it running for the duration of the authentication process.
+Instead, we'll be using ngrok to open a port.
+Run the following in a separate session.
+You need to leave it running for the duration of the authorization process.
 ```bash
 ngrok http 80 TODO
 ```
