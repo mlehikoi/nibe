@@ -7,18 +7,15 @@ package uplink
 // supply air:137
 
 type Ventilation struct {
-	FanSpeed    int     // Fan speed in percentage
-	exhaustTemp float32 // exhaust air temperature, before compressor
-	extractTemp float32 // extract air, after compressor
-	supplyTemp  float32 // intake air temperature
+	FanSpeed    int     `name:"10001"`            // Fan speed in percentage
+	ExhaustTemp float64 `name:"40025" scale:".1"` // exhaust air temperature, before compressor
+	ExtractTemp float64 `name:"40026" scale:".1"` // extract air, after compressor
+	SupplyTemp  float64 `name:"40075" scale:".1"` // intake air temperature
+
 }
 
-func newVentilation(params []Parameter) Ventilation {
-	m := newParamMap(params)
-	return Ventilation{
-		FanSpeed:    m.int("fan speed"),
-		exhaustTemp: m.float32("exhaust air") / 10.,
-		extractTemp: m.float32("extract air") / 10.,
-		supplyTemp:  m.float32("supply air") / 10.,
-	}
+func newVentilation(params []Parameter) *Ventilation {
+	vent := &Ventilation{}
+	parseParams(params, vent)
+	return vent
 }

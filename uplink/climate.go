@@ -9,22 +9,16 @@ package uplink
 // room temperature:-32768
 
 type Climate struct {
-	ExternalAdjustment int     // External adjustment
-	CalculatedFlowTemp float32 // Flow target temp
-	ExternalFlowTemp   float32 // External flow temp, -3276.8 if not available
-	HeatMediumFlow     float32 // Flow temp at medium point
-	ReturnFlowTemp     float32 // Flow return temp
-	RoomTemp           float32 // Room temp:, -3276,8 if not available
+	ExternalAdjustment int     `name:"43161"`            // External adjustment
+	CalculatedFlowTemp float64 `name:"43009" scale:".1"` // Flow target temp
+	ExternalFlowTemp   float64 `name:"40071" scale:".1"` // External flow temp, -3276.8 if not available
+	HeatMediumFlow     float64 `name:"40008" scale:".1"` // Flow temp at medium point
+	ReturnTemp         float64 `name:"40012" scale:".1"` // Flow return temp
+	RoomTemp           float64 `name:"40033" scale:".1"` // Room temp:, -3276,8 if not available
 }
 
-func newClimate(params []Parameter) Climate {
-	m := newParamMap(params)
-	return Climate{
-		ExternalAdjustment: m.int("external adjustment"),
-		CalculatedFlowTemp: m.float32("calculated flow temp.") / 10.,
-		ExternalFlowTemp:   m.float32("external flow temp.") / 10.,
-		HeatMediumFlow:     m.float32("heat medium flow") / 10.,
-		ReturnFlowTemp:     m.float32("return temp.") / 10.,
-		RoomTemp:           m.float32("room temperature") / 10.,
-	}
+func newClimate(params []Parameter) *Climate {
+	climate := &Climate{}
+	parseParams(params, climate)
+	return climate
 }

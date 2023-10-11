@@ -1,40 +1,42 @@
 package uplink
 
-import "math"
+import (
+	"math"
+	"reflect"
+	"strconv"
+)
 
-type paramMap map[string][]int
+type paramMap map[string]int
 
 func newParamMap(params []Parameter) paramMap {
 	m := make(paramMap)
 	for _, param := range params {
-		m.insert(param.Title, param.RawValue)
+		m[param.Name] = param.RawValue
 	}
 	return m
 }
 
-func (m *paramMap) insert(key string, value int) {
-	(*m)[key] = append((*m)[key], value)
-}
+func parseParams(params []Parameter, obj interface{}) {
+	m := newParamMap(params)
 
-func (m *paramMap) int(key string, optionalIndex ...int) int {
-	i := index(optionalIndex...)
-	if i >= len((*m)[key]) {
-		return 0
-	}
-	return (*m)[key][i]
-}
+	val := reflect.ValueOf(obj).Elem()
+	typ := reflect.TypeOf(obj).Elem()
 
-func (m *paramMap) float32(key string, optionalIndex ...int) float32 {
-	value := float32(m.int(key, optionalIndex...))
-	if value == -32768 {
-		return float32(math.NaN())
+	for i := 0; i < typ.NumField(); i++ {
+		field := typ.Field(i)
+		rawValue := m[field.Tag.Get("name")]
+		scale, err := strconv.ParseFloat(field.Tag.Get("scale"), 64)
+		if err != nil {
+			scale = 1.0
+		}
+		if field.Type.String() == "int" {
+			val.Field(i).SetInt(int64(math.Round((float64(rawValue) * scale))))
+		} else {
+			if rawValue == -32768 {
+				val.Field(i).SetFloat(math.NaN())
+			} else {
+				val.Field(i).SetFloat(float64(rawValue) * scale)
+			}
+		}
 	}
-	return value
-}
-
-func index(index ...int) int {
-	if len(index) > 0 {
-		return index[0]
-	}
-	return 0
 }

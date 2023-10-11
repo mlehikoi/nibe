@@ -12,11 +12,11 @@ type System struct {
 	ConnectionStatus string
 	HasAlarmed       bool
 
-	Status      Status      // Basic status information
-	Compressor  Compressor  // Compressor information
-	Ventilation Ventilation // Ventilation information
-	Climate     Climate     // Climate system information
-	Addition    Addition    // Additional electric heating
+	Status      *Status      // Basic status information
+	Compressor  *Compressor  // Compressor information
+	Ventilation *Ventilation // Ventilation information
+	Climate     *Climate     // Climate system information
+	Addition    *Addition    // Additional electric heating
 }
 
 func newSystem(obj Object) System {

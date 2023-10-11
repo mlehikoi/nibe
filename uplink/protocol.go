@@ -67,8 +67,13 @@ type Category struct {
 //     },
 // ]
 type Parameter struct {
-	Title    string `json:"title"`
-	RawValue int    `json:"rawValue"`
+	ParameterId  int    `json:"parameterId"`
+	Name         string `json:"name"`
+	Title        string `json:"title"`
+	Designation  string `json:"designation"`
+	Unit         string `json:"unit"`
+	DisplayValue string `json:"displayValue"`
+	RawValue     int    `json:"rawValue"`
 }
 
 // getSystems returns the systems available for this users

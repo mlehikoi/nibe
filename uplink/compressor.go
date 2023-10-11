@@ -9,22 +9,16 @@ package uplink
 // compressor operating time hot water:2676
 
 type Compressor struct {
-	blocked                         int
-	compressorStarts                int
-	compressorSensor                int
-	evaporator                      int
-	compressorOperatingTime         int
-	compressorOperatingTimeHotWater int
+	Blocked                         int `name:"10012" scale:"1.0"`
+	CompressorStarts                int `name:"43416" scale:"1.0"`
+	CompressorSensor                int `name:"40023" scale:"1.0"`
+	Evaporator                      int `name:"40020" scale:"1.0"`
+	CompressorOperatingTime         int `name:"43420" scale:"1.0"`
+	CompressorOperatingTimeHotWater int `name:"43424" scale:"1.0"`
 }
 
-func newCompressor(params []Parameter) Compressor {
-	m := newParamMap(params)
-	return Compressor{
-		blocked:                         m.int("blocked"),
-		compressorStarts:                m.int("compressor starts"),
-		compressorSensor:                m.int("compressor sensor"),
-		evaporator:                      m.int("evaporator"),
-		compressorOperatingTime:         m.int("compressor operating time"),
-		compressorOperatingTimeHotWater: m.int("compressor operating time hot water"),
-	}
+func newCompressor(params []Parameter) *Compressor {
+	compressor := &Compressor{}
+	parseParams(params, compressor)
+	return compressor
 }
