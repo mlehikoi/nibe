@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"net/url"
 	"text/template"
+
+	"github.com/mlehikoi/nibe/internal/constants"
 )
 
 const help = `Authorize the application
@@ -33,8 +35,6 @@ func Authorize(port int) {
 	http.HandleFunc("/", serve)
 	panic(http.Serve(listener, nil))
 }
-
-const nibeURL string = "https://api.nibeuplink.com"
 
 // This function serves three types of requests:
 // 1. the initial form for asking identifier and secret to start the process
@@ -76,7 +76,7 @@ func requestAuthorization(w http.ResponseWriter, r *http.Request, id, secret str
 
 	authorizeURL := fmt.Sprintf(
 		"%s/oauth/authorize?response_type=code&client_id=%s&scope=%s&redirect_uri=%s&state=%s",
-		nibeURL,
+		constants.NibeURL,
 		id,
 		"READSYSTEM",
 		"https://"+r.Host,
@@ -108,7 +108,7 @@ func requestAccessToken(w http.ResponseWriter, r *http.Request, code, state stri
 	params.Add("redirect_uri", "https://"+r.Host)
 	params.Add("scope", "READSYSTEM")
 
-	resp, err := http.PostForm(fmt.Sprintf("%s/oauth/token", nibeURL), params)
+	resp, err := http.PostForm(fmt.Sprintf("%s/oauth/token", constants.NibeURL), params)
 	if err != nil {
 		renderPage(w, err.Error())
 		return
@@ -120,7 +120,7 @@ func requestAccessToken(w http.ResponseWriter, r *http.Request, code, state stri
 		return
 	}
 
-	if err = token.dump("nibe-uplink-token.json"); err != nil {
+	if err = token.Dump("nibe-uplink-token.json"); err != nil {
 		renderPage(w, err.Error())
 	}
 

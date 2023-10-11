@@ -21,7 +21,7 @@ func (token *Token) String() string {
 	return string(jsonData)
 }
 
-func (token *Token) dump(filename string) error {
+func (token *Token) Dump(filename string) error {
 	jsonData, err := json.Marshal(token)
 	if err != nil {
 		return err
